@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="VibeScope is a read-only portfolio viewer for the Robinhood Chain testnet. Inspect ETH and ERC-20 balances without signing transactions."
+    />
+    <meta name="theme-color" content="#081311" />
+    <meta property="og:title" content="VibeScope — Robinhood Chain portfolio viewer" />
+    <meta
+      property="og:description"
+      content="A focused, read-only testnet portfolio explorer. No signatures. No transactions. Just a clear view of your assets."
+    />
+    <meta property="og:type" content="website" />
+    <title>VibeScope — Robinhood Chain portfolio viewer</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-glow page-glow-one" aria-hidden="true"></div>
+    <div class="page-glow page-glow-two" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="VibeScope home">
+        <span class="brand-mark" aria-hidden="true">
+          <span></span>
+        </span>
+        <span class="brand-name">VibeScope</span>
+        <span class="brand-tag">testnet</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#portfolio">Portfolio</a>
+        <a href="#how-it-works">How it works</a>
+        <button class="button button-small button-ghost" type="button" data-connect>
+          Connect wallet
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span class="eyebrow-dot" aria-hidden="true"></span>
+            Robinhood Chain · Testnet
+          </div>
+          <h1 id="hero-title">
+            See your testnet portfolio
+            <span>without the noise.</span>
+          </h1>
+          <p class="hero-intro">
+            A focused, read-only view of ETH and ERC-20 balances. Paste any
+            address or connect a wallet. Nothing is signed and nothing moves.
+          </p>
+
+          <form class="address-form" id="addressForm">
+            <label class="sr-only" for="addressInput">Wallet address</label>
+            <div class="address-input-wrap">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M4 7.5h16M6.5 4h11A2.5 2.5 0 0 1 20 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5v-11A2.5 2.5 0 0 1 6.5 4Z"
+                />
+                <path d="M8 12h8M8 15h5" />
+              </svg>
+              <input
+                id="addressInput"
+                name="address"
+                type="text"
+                inputmode="text"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="Paste a 0x wallet address"
+                aria-describedby="addressHelp"
+              />
+            </div>
+            <button class="button button-primary" id="inspectButton" type="submit">
+              <span>Inspect portfolio</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M4 10h11M11 6l4 4-4 4" />
+              </svg>
+            </button>
+          </form>
+
+          <div class="hero-actions">
+            <button class="text-button" type="button" data-connect>
+              <span class="wallet-icon" aria-hidden="true"></span>
+              Use connected wallet
+            </button>
+            <span class="action-divider" aria-hidden="true"></span>
+            <span id="addressHelp">Read-only. No signature required.</span>
+          </div>
+        </div>
+
+        <aside class="network-card" aria-label="Network status">
+          <div class="network-card-top">
+            <div class="network-orbit" aria-hidden="true">
+              <span class="orbit orbit-one"></span>
+              <span class="orbit orbit-two"></span>
+              <span class="orbit-core"></span>
+            </div>
+            <span class="status-pill" id="networkStatus">
+              <span class="status-dot" id="networkDot"></span>
+              <span id="networkText">Checking network</span>
+            </span>
+          </div>
+
+          <div class="network-title">
+            <span>Robinhood Chain</span>
+            <strong>Testnet</strong>
+          </div>
+
+          <dl class="network-facts">
+            <div>
+              <dt>Chain ID</dt>
+              <dd>46630</dd>
+            </div>
+            <div>
+              <dt>Latest block</dt>
+              <dd id="blockNumber">—</dd>
+            </div>
+            <div>
+              <dt>Mode</dt>
+              <dd>Read-only</dd>
+            </div>
+          </dl>
+
+          <div class="network-foot">
+            <span class="pulse-ring" aria-hidden="true"></span>
+            <span>Connected directly to the public RPC</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="portfolio-section" id="portfolio" aria-labelledby="portfolio-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Portfolio</p>
+            <h2 id="portfolio-title">Your testnet at a glance</h2>
+          </div>
+          <div class="portfolio-tools">
+            <button class="icon-button" id="copyAddressButton" type="button" disabled>
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M7 6V4.5A1.5 1.5 0 0 1 8.5 3h7A1.5 1.5 0 0 1 17 4.5v7a1.5 1.5 0 0 1-1.5 1.5H14" />
+                <rect x="3" y="6" width="11" height="11" rx="1.5" />
+              </svg>
+              <span>Copy address</span>
+            </button>
+            <button class="icon-button" id="refreshButton" type="button" disabled>
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M16 7a7 7 0 1 0 .3 5.8M16 3v4h-4" />
+              </svg>
+              <span>Refresh</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="dashboard" id="dashboard" aria-busy="false">
+          <div class="portfolio-summary">
+            <article class="summary-card summary-balance">
+              <span class="summary-label">Native balance</span>
+              <strong id="statBalance">—</strong>
+              <span class="summary-caption">Testnet ETH</span>
+            </article>
+            <article class="summary-card">
+              <span class="summary-label">Assets found</span>
+              <strong id="statAssets">—</strong>
+              <span class="summary-caption">ERC-20 positions</span>
+            </article>
+            <article class="summary-card summary-address">
+              <span class="summary-label">Portfolio</span>
+              <strong id="statAddress">No address selected</strong>
+              <span class="summary-caption" id="statAddressCaption">
+                Paste an address or connect a wallet
+              </span>
+            </article>
+          </div>
+
+          <div class="assets-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Token positions</h3>
+                <p>Curated Vibe assets, custom tokens and explorer discoveries.</p>
+              </div>
+              <span class="asset-count" id="assetCount">0 tokens</span>
+            </div>
+
+            <div class="asset-state" id="assetState">
+              <div class="empty-illustration" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <h4>Nothing to show yet</h4>
+              <p>Inspect an address above to load its testnet portfolio.</p>
+            </div>
+
+            <div class="asset-grid" id="assetGrid" hidden></div>
+            <p class="discovery-note" id="discoveryNote" hidden></p>
+          </div>
+
+          <aside class="watch-panel">
+            <div>
+              <span class="panel-kicker">Personal watchlist</span>
+              <h3>Track another token</h3>
+              <p>
+                Add an ERC-20 contract on Robinhood Chain. VibeScope reads its
+                metadata and balance without a transaction.
+              </p>
+            </div>
+
+            <form id="addTokenForm">
+              <label for="tokenAddressInput">Token contract</label>
+              <div class="compact-input">
+                <input
+                  id="tokenAddressInput"
+                  type="text"
+                  autocomplete="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                  placeholder="0x token contract"
+                />
+                <button id="addTokenButton" type="submit" aria-label="Add token">
+                  <svg viewBox="0 0 20 20" aria-hidden="true">
+                    <path d="M10 4v12M4 10h12" />
+                  </svg>
+                </button>
+              </div>
+              <p class="form-feedback" id="tokenFeedback" aria-live="polite"></p>
+            </form>
+
+            <div class="safety-note">
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M10 2.5 16 5v4.6c0 3.6-2.3 6.6-6 7.9-3.7-1.3-6-4.3-6-7.9V5l6-2.5Z" />
+                <path d="m7.5 9.8 1.7 1.7 3.5-3.7" />
+              </svg>
+              <span>
+                This interface never requests a seed phrase, private key, token
+                approval or transaction signature.
+              </span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="how-section" id="how-it-works" aria-labelledby="how-title">
+        <div class="how-heading">
+          <p class="eyebrow">Built for clarity</p>
+          <h2 id="how-title">Small tool. Real utility.</h2>
+          <p>
+            Test networks are full of useful activity, but balances are often
+            scattered across explorers and launch pages. VibeScope puts the
+            essentials in one calm view.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="feature-number">01</span>
+            <h3>Paste or connect</h3>
+            <p>
+              Inspect any public address, or connect an injected wallet to read
+              its active account. No signature is needed.
+            </p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-number">02</span>
+            <h3>Read on-chain</h3>
+            <p>
+              Native ETH and ERC-20 balances are queried directly from the
+              Robinhood Chain testnet RPC.
+            </p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-number">03</span>
+            <h3>Keep a shortlist</h3>
+            <p>
+              Save custom contract addresses locally. Your watchlist stays in
+              this browser and never reaches a server.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <a class="brand footer-brand" href="#" aria-label="VibeScope home">
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
+          <span class="brand-name">VibeScope</span>
+        </a>
+        <p>A read-only portfolio viewer for Robinhood Chain testnet.</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://explorer.testnet.chain.robinhood.com" target="_blank" rel="noreferrer">
+          Explorer
+        </a>
+        <a href="https://testnet.vibevibe.fun" target="_blank" rel="noreferrer">
+          vibe/vibe
+        </a>
+        <a href="README.md">Docs</a>
+      </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
