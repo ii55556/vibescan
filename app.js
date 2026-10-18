@@ -31,6 +31,13 @@ const CURATED_TOKENS = [
     decimals: 18,
     source: "Curated",
   },
+  {
+    address: "0x5F187635B069AB4c4Bf4d20Cc31c349e32F24B5C",
+    name: "VibeScope",
+    symbol: "VSCOPE",
+    decimals: 18,
+    source: "Curated",
+  },
 ];
 
 const STORAGE_KEY = "vibescan.customTokens.v1";
