@@ -4,6 +4,10 @@ VibeScope is a read-only portfolio viewer for the Robinhood Chain testnet. It gi
 
 **Live demo:** https://ii55556.github.io/vibescan/
 
+**vibe/vibe listing:** https://testnet.vibevibe.fun/token/0x5F187635B069AB4c4Bf4d20Cc31c349e32F24B5C
+
+**Token contract:** `0x5F187635B069AB4c4Bf4d20Cc31c349e32F24B5C`
+
 ## The problem
 
 Testnet assets are spread across launch pages, wallets and block explorers. Checking which assets an address holds usually means bouncing between several interfaces. VibeScope makes the common case direct: inspect an address once and see its public balances.

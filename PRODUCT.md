@@ -60,7 +60,10 @@ That friction is especially noticeable on a new network where users are testing 
 
 ## Evidence
 
-- Working site: GitHub Pages deployment from this repository.
+- Working site: https://ii55556.github.io/vibescan/
+- vibe/vibe listing: https://testnet.vibevibe.fun/token/0x5F187635B069AB4c4Bf4d20Cc31c349e32F24B5C
+- Project category: Product & Utility
+- Token contract: `0x5F187635B069AB4c4Bf4d20Cc31c349e32F24B5C`
 - Source code: complete HTML, CSS and JavaScript in the repository.
 - Architecture: static frontend using public RPC and explorer APIs.
 - Safety: no private key, approval or transaction flow.
