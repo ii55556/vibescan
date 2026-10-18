@@ -2,6 +2,8 @@
 
 VibeScope is a read-only portfolio viewer for the Robinhood Chain testnet. It gives a focused view of ETH and ERC-20 balances without asking for a signature, approval, private key or transaction.
 
+**Live demo:** https://ii55556.github.io/vibescan/
+
 ## The problem
 
 Testnet assets are spread across launch pages, wallets and block explorers. Checking which assets an address holds usually means bouncing between several interfaces. VibeScope makes the common case direct: inspect an address once and see its public balances.
